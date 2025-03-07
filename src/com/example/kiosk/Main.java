@@ -1,5 +1,6 @@
 package com.example.kiosk;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -45,11 +46,6 @@ public class Main {
 
 
 
-
-
-
-
-
         //메뉴 고르기
         while(true) {
             try {
@@ -63,7 +59,15 @@ public class Main {
                     double menuPrice = menuItems.get(i).getMenuPrice();
                     String menuInfo = menuItems.get(i).getMenuInfo();
 
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", i+1, menuName, menuPrice, menuInfo);
+                    //영어는 한 글자당 1byte
+                    //한글은 한 글자당 2byte
+
+                    int menuSize = 20;
+
+                    int length = menuSize - menuName.length();
+
+                    System.out.printf("%-2d. %-"+ length + "s | W %3.1f | %s%n", i+1, menuName, menuPrice, menuInfo);
+
                 }
 
                 System.out.println("0 . 종료               |  종료");
@@ -80,8 +84,9 @@ public class Main {
                     String menuInfo = menuItems.get(num-1).getMenuInfo();
                     System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
 
-                    System.out.println("\n0. 종료");
-                    System.out.println("9. 이전으로");
+                    System.out.println("\n9. 이전으로");
+                    System.out.println("0. 종료");
+
 
                     System.out.print("\n입력 : ");
                     num = scanner.nextInt();
