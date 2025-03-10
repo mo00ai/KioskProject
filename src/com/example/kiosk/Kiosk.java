@@ -109,16 +109,22 @@ public class Kiosk {
                     System.out.println("\n9. 이전으로");
                     System.out.println("0. 종료");
 
-                    System.out.print("\n입력 : ");
-                    num = scanner.nextInt();
-
-                    if (num == 0) {
-                        System.out.println("\n종료합니다.");
-                        break;
-                    } else if (num == 9) {
-                        System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                        backButton = true;
+                    while (true) {
+                        System.out.print("\n입력 : ");
+                        num = scanner.nextInt();
+                        if (num == 0) {
+                            System.out.println("\n종료합니다.");
+                            exit = true;
+                            break;
+                        } else if (num == 9) {
+                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
+                            backButton = true;
+                            break;
+                        } else {
+                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
+                        }
                     }
+
                 } else if (num == 2) {
                     System.out.println("\n-------- 선택한 메뉴 --------");
                     String menuName = this.menuItems.get(num - 1).getMenuName();
@@ -146,7 +152,6 @@ public class Kiosk {
                         } else {
                             System.out.println("\n0과 9 중에서만 입력해주세요\n");
                         }
-
                     }
 
                 } else if (num == 3) {
@@ -163,13 +168,22 @@ public class Kiosk {
                     System.out.print("\n입력 : ");
                     num = scanner.nextInt();
 
-                    if (num == 0) {
-                        System.out.println("\n종료합니다.");
-                        break;
-                    } else if (num == 9) {
-                        System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                        backButton = true;
+                    while (true) {
+                        System.out.print("\n입력 : ");
+                        num = scanner.nextInt();
+                        if (num == 0) {
+                            System.out.println("\n종료합니다.");
+                            exit = true;
+                            break;
+                        } else if (num == 9) {
+                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
+                            backButton = true;
+                            break;
+                        } else {
+                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
+                        }
                     }
+
                 } else if (num == 4) {
                     System.out.println("\n-------- 선택한 메뉴 --------");
                     String menuName = this.menuItems.get(num - 1).getMenuName();
@@ -184,13 +198,22 @@ public class Kiosk {
                     System.out.print("\n입력 : ");
                     num = scanner.nextInt();
 
-                    if (num == 0) {
-                        System.out.println("\n종료합니다.");
-                        break;
-                    } else if (num == 9) {
-                        System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                        backButton = true;
+                    while (true) {
+                        System.out.print("\n입력 : ");
+                        num = scanner.nextInt();
+                        if (num == 0) {
+                            System.out.println("\n종료합니다.");
+                            exit = true;
+                            break;
+                        } else if (num == 9) {
+                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
+                            backButton = true;
+                            break;
+                        } else {
+                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
+                        }
                     }
+
                 } else if (num == 5) {
                     System.out.println("\n-------- 선택한 메뉴 --------");
                     String menuName = this.menuItems.get(num - 1).getMenuName();
@@ -202,16 +225,22 @@ public class Kiosk {
                     System.out.println("\n9. 이전으로");
                     System.out.println("0. 종료");
 
-                    System.out.print("\n입력 : ");
-                    num = scanner.nextInt();
-
-                    if (num == 0) {
-                        System.out.println("\n종료합니다.");
-                        break;
-                    } else if (num == 9) {
-                        System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                        backButton = true;
+                    while (true) {
+                        System.out.print("\n입력 : ");
+                        num = scanner.nextInt();
+                        if (num == 0) {
+                            System.out.println("\n종료합니다.");
+                            exit = true;
+                            break;
+                        } else if (num == 9) {
+                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
+                            backButton = true;
+                            break;
+                        } else {
+                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
+                        }
                     }
+
                 } else if (num == 0) {
                     System.out.println("키오스크를 종료합니다.");
                     exit= true;
