@@ -9,40 +9,16 @@ import java.util.Scanner;
 public class Kiosk {
     MenuItem menuItem;
 
-    //프로그램 순서 및 흐름 제어를 담당하는 클래스
-    private List<MenuItem> menuItems;
+    Menu menu;
 
-    public Kiosk(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
+    private List<Menu> menus;
+
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
-    }
-
-    public List<MenuItem> insertBurgers() {
-
-        if(this.menuItems == null) {
-            this.menuItems = new ArrayList<>();
-        }
-
-        MenuItem menuItem1 = new MenuItem("싸이버거", 4.9,"매콤한 통다리살 패티가 통째로~ 맘스터치 시그니처 버거");
-        MenuItem menuItem2 =new MenuItem("불싸이버거", 5.1,"불 맛이 살아있는 싸이버거의 진또배기");
-        MenuItem menuItem3 = new MenuItem("화이트갈릭버거", 4.9,"크림처럼 부드러운 화이트갈릭 소스에 통가슴살");
-        MenuItem menuItem4 = new MenuItem("통새우버거", 4.9,"통새우살 패티에 신선한 양상추는 덤~");
-        MenuItem menuItem5 = new MenuItem("딥치즈버거", 4.9,"부드러운 치즈와 한층 더 촉촉해진 닭가슴살");
-
-//        Kiosk kiosk = new Kiosk(List.of(menuItem1, menuItem2, menuItem3,menuItem4,menuItem5));
-
-        if(this.menuItems.isEmpty()) {
-            menuItems.addAll(List.of(menuItem1,menuItem2,menuItem3,menuItem4,menuItem5));
-        }
-
-        return this.menuItems;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 
     public void start() {
@@ -60,202 +36,96 @@ public class Kiosk {
         System.out.println("🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔");
 
 
+        boolean mainMenuPrinting = true;
+        boolean categoryMenuPrinting =true;
         boolean backButton = true;
-        boolean exit = false;
+
+        boolean exitKiosk = false;
+        boolean exitCategory = false;
+
+        int mainNum=0;
+        int menuItemNum = 0;
+        Menu pickedCategory = null;
 
         //메뉴 고르기
-        while (!exit) {
-            try {
+        while (!exitKiosk) {
+
+            mainNum=0;
+            menuItemNum = 0;
+            pickedCategory = null;
+            exitCategory = false;
 
 
-                if (backButton) {
-
-                    //메뉴들 출력
-                    System.out.println("\n🍔 맘스터치 메뉴 🍔");
-
-                    for (int i = 0; i < this.menuItems.size(); i++) {
-
-                        String menuName = this.menuItems.get(i).getMenuName();
-                        double menuPrice = this.menuItems.get(i).getMenuPrice();
-                        String menuInfo = this.menuItems.get(i).getMenuInfo();
-
-                        //영어는 한 글자당 1byte
-                        //한글은 한 글자당 2byte
-
-                        int menuSize = 20;
-                        int length = menuSize - menuName.length();
-
-                        System.out.printf("%-2d. %-" + length + "s | W %3.1f | %s%n", i + 1, menuName, menuPrice, menuInfo);
-
-                    }
-
-                    System.out.println("0 . 종료                |  종료");
-                    System.out.println();
-
+            //메인 메뉴 출력
+            if(mainMenuPrinting) {
+                System.out.println("\n🍔 맘스터치 메뉴 🍔");
+                for(int i=0; i<this.menus.size(); i++) {
+                    String menuCategory = this.menus.get(i).getMenuCategory();
+                    System.out.println((i+1)+". " + menuCategory);
                 }
+                System.out.println("0. 종료\n");
+            }
 
 
-                System.out.print("1~5 또는 0을 입력하세요: ");
-                int num = scanner.nextInt();
+            //메인 메뉴 입력
+            try {
+                while(true) {
+                    System.out.print("1~"+this.menus.size()+" 사이의 숫자를 입력해주세요: ");
+                    mainNum = scanner.nextInt();
 
-                if (num == 1) {
-                    System.out.println("\n-------- 선택한 메뉴 --------");
-                    String menuName = this.menuItems.get(num - 1).getMenuName();
-                    double menuPrice = this.menuItems.get(num - 1).getMenuPrice();
-                    String menuInfo = this.menuItems.get(num - 1).getMenuInfo();
-
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
-
-                    System.out.println("\n9. 이전으로");
-                    System.out.println("0. 종료");
-
-                    while (true) {
-                        System.out.print("\n입력 : ");
-                        num = scanner.nextInt();
-                        if (num == 0) {
-                            System.out.println("\n종료합니다.");
-                            exit = true;
-                            break;
-                        } else if (num == 9) {
-                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                            backButton = true;
-                            break;
-                        } else {
-                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
-                        }
+                   if(mainNum >=1 && mainNum <= this.menus.size()) {
+                        pickedCategory = this.menus.get(mainNum-1);
+                        break;
+                    } else if(mainNum == 0) {
+                        System.out.println("키오스크를 종료합니다.");
+                        exitKiosk = true;
+                        break;
+                    } else {
+                        System.out.println("\n❌ 1~"+ this.menus.size()+ "사이에서 다시 입력해주세요.\n");
                     }
-
-                } else if (num == 2) {
-                    System.out.println("\n-------- 선택한 메뉴 --------");
-                    String menuName = this.menuItems.get(num - 1).getMenuName();
-                    double menuPrice = this.menuItems.get(num - 1).getMenuPrice();
-                    String menuInfo = this.menuItems.get(num - 1).getMenuInfo();
-
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
-
-                    System.out.println("\n9. 이전으로");
-                    System.out.println("0. 종료");
-
-
-
-                    while (true) {
-                        System.out.print("\n입력 : ");
-                        num = scanner.nextInt();
-                        if (num == 0) {
-                            System.out.println("\n종료합니다.");
-                            exit = true;
-                            break;
-                        } else if (num == 9) {
-                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                            backButton = true;
-                            break;
-                        } else {
-                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
-                        }
-                    }
-
-                } else if (num == 3) {
-                    System.out.println("\n-------- 선택한 메뉴 --------");
-                    String menuName = this.menuItems.get(num - 1).getMenuName();
-                    double menuPrice = this.menuItems.get(num - 1).getMenuPrice();
-                    String menuInfo = this.menuItems.get(num - 1).getMenuInfo();
-
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
-
-                    System.out.println("\n9. 이전으로");
-                    System.out.println("0. 종료");
-
-                    System.out.print("\n입력 : ");
-                    num = scanner.nextInt();
-
-                    while (true) {
-                        System.out.print("\n입력 : ");
-                        num = scanner.nextInt();
-                        if (num == 0) {
-                            System.out.println("\n종료합니다.");
-                            exit = true;
-                            break;
-                        } else if (num == 9) {
-                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                            backButton = true;
-                            break;
-                        } else {
-                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
-                        }
-                    }
-
-                } else if (num == 4) {
-                    System.out.println("\n-------- 선택한 메뉴 --------");
-                    String menuName = this.menuItems.get(num - 1).getMenuName();
-                    double menuPrice = this.menuItems.get(num - 1).getMenuPrice();
-                    String menuInfo = this.menuItems.get(num - 1).getMenuInfo();
-
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
-
-                    System.out.println("\n9. 이전으로");
-                    System.out.println("0. 종료");
-
-                    System.out.print("\n입력 : ");
-                    num = scanner.nextInt();
-
-                    while (true) {
-                        System.out.print("\n입력 : ");
-                        num = scanner.nextInt();
-                        if (num == 0) {
-                            System.out.println("\n종료합니다.");
-                            exit = true;
-                            break;
-                        } else if (num == 9) {
-                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                            backButton = true;
-                            break;
-                        } else {
-                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
-                        }
-                    }
-
-                } else if (num == 5) {
-                    System.out.println("\n-------- 선택한 메뉴 --------");
-                    String menuName = this.menuItems.get(num - 1).getMenuName();
-                    double menuPrice = this.menuItems.get(num - 1).getMenuPrice();
-                    String menuInfo = this.menuItems.get(num - 1).getMenuInfo();
-
-                    System.out.printf("%-2d. %-15s| W %5.1f | %s%n", num, menuName, menuPrice, menuInfo);
-
-                    System.out.println("\n9. 이전으로");
-                    System.out.println("0. 종료");
-
-                    while (true) {
-                        System.out.print("\n입력 : ");
-                        num = scanner.nextInt();
-                        if (num == 0) {
-                            System.out.println("\n종료합니다.");
-                            exit = true;
-                            break;
-                        } else if (num == 9) {
-                            System.out.println("\n메뉴화면으로 돌아갑니다.\n");
-                            backButton = true;
-                            break;
-                        } else {
-                            System.out.println("\n0과 9 중에서만 입력해주세요\n");
-                        }
-                    }
-
-                } else if (num == 0) {
-                    System.out.println("키오스크를 종료합니다.");
-                    exit= true;
-                } else {
-                    System.out.println("\n❌ 1~5 사이에서 다시 입력해주세요.\n");
-                    backButton = false;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("\n❌ 숫자만 입력해주세요\n");
                 scanner.next();//버퍼비우기
-            } catch (IllegalArgumentException e) {
-                System.out.println("0과 9만 입력해주세요");
             }
+
+
+
+            while (!exitCategory) {
+                //선택한 카테고리 메뉴 출력
+                if (categoryMenuPrinting) {
+                    pickedCategory.printMenuItemList();
+                }
+
+                //선택한 카테고리 내 메뉴 선택
+                try {
+                    System.out.print("1~5 또는 0을 입력하세요: ");
+                    menuItemNum = scanner.nextInt();
+
+                    if (menuItemNum >= 1 && menuItemNum <= 5) {
+                        pickedCategory.printPickedMenu(menuItemNum);
+                    } else if (menuItemNum == 0) {
+                        System.out.println("메인메뉴로 돌아갑니다.");
+                        exitCategory = true;
+                    } else {
+                        System.out.println("\n❌ 1~5 사이에서 다시 입력해주세요.\n");
+                        categoryMenuPrinting = false;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("\n❌ 숫자만 입력해주세요\n");
+                    scanner.next();//버퍼비우기
+                }
+
+            }
+
 
         }
         scanner.close();
     }
+
+    public void checkingMainInput(int mainNum) {
+
+    }
+
+
 }
