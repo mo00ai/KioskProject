@@ -34,9 +34,12 @@ public class Kiosk {
         boolean backButton = true;
         boolean exitKiosk = false;
         boolean exitCategory = false;
+        boolean cartExist = false;
         int mainNum=0;
         int menuItemNum = 0;
         Menu pickedCategory = null;
+
+        Cart cartList = new Cart();
 
         //메뉴 고르기
         while (!exitKiosk) {
@@ -55,14 +58,24 @@ public class Kiosk {
                     String menuCategory = this.menus.get(i).getMenuCategory();
                     System.out.println((i+1)+". " + menuCategory);
                 }
-                System.out.println("0. 종료\n");
+
+                if(!cartExist) {
+                    System.out.println("0. 종료\n");
+                }
+
+                if (cartExist) {
+                    System.out.println("\n🍔 주문/장바구니 확인 🍔");
+                    System.out.println(this.menus.size()+1 + ". Orders   | 장바구니를 확인 후 주문합니다");
+                    System.out.println(this.menus.size()+2 + ". Cancel   | 주문을 취소합니다.");
+                    System.out.println("0. 종료\n");
+                }
             }
 
 
             //메인 메뉴 입력
 
             //입력값 검사 메서드 호출
-            mainNum = checkingInput(scanner,1, this.menus.size());
+            mainNum = checkingInput(scanner,1, this.menus.size(), cartExist);
 
             if (mainNum >= 1 && mainNum <= this.menus.size()) {
                 pickedCategory = this.menus.get(mainNum - 1);
@@ -70,7 +83,34 @@ public class Kiosk {
                 System.out.println("키오스크를 종료합니다.");
                 exitKiosk = true;
                 break; //꼭 break을 해줘야 다음 로직으로 안넘어감
+            } else if(mainNum == 4) {
+                if(cartList != null) {
+                    cartList.printCartList();
+                    int orderNum = checkingInput(scanner, 1,2, cartExist);
+
+                    if(orderNum == 1) {
+                        System.out.println("주문이 완료되었습니다. 금액은 W " + cartList.getTotalPrice()+" 입니다.");
+                        exitKiosk = true;
+                        break;
+                    } else if (orderNum == 2) {
+                        exitCategory = true;
+                    }
+
+                }
+            } else if( mainNum == 5) {
+                System.out.println("주문 취소 되었습니다.");
+                System.out.println("메인메뉴로 돌아갑니다.");
+                cartList.makeEmptyCart();
+                cartExist = false;
+                exitCategory = true;
             }
+
+
+
+
+
+
+
 
 
             //카테고리(햄버거,음료,사이드) 별 메뉴 출력 및 입력 while문
@@ -89,11 +129,10 @@ public class Kiosk {
                 //선택한 카테고리 내 메뉴 선택
 
                 //입력값 검사 메서드 호출 (int반환)
-                menuItemNum = checkingInput(scanner, 1,5);
+                menuItemNum = checkingInput(scanner, 1,5, cartExist);
 
                 if (menuItemNum >= 1 && menuItemNum <= 5) {
                     pickedCategory.printPickedMenu(menuItemNum);
-                    break;
                 } else if (menuItemNum == 0) {
                     System.out.println("메인메뉴로 돌아갑니다.");
                     exitCategory = true;
@@ -101,27 +140,65 @@ public class Kiosk {
                     categoryMenuPrinting = false;
                 }
 
+
+
+
+
+                //장바구니 추가 할건지 입력
+                int num = checkingInput(scanner, 1, 2, cartExist);
+
+                if(num == 1) {
+                    pickedCategory.printAddedCartMenu(menuItemNum);
+
+                    //장바구니 추가
+                    cartList.addCartList(this.menus.get(mainNum-1).getMenuItems().get(menuItemNum-1));
+
+                    exitCategory = true;
+                    cartExist = true;
+                } else if (num == 2) {
+                    categoryMenuPrinting = true;
+                }
+
+
+
+
             }
 
         }
+
         //스캐너 닫기
         scanner.close();
     }
 
+
+
+
+
+
+
     //입력값 예외 처리 로직
-    public int checkingInput(Scanner scanner, int startNo, int endNo) {
+    public int checkingInput(Scanner scanner, int startNo, int endNo, boolean cartExist) {
 
         int input = 0;
 
         while (true) {
 
             try {
-                System.out.print(startNo + "~" + endNo + " 사이의 숫자를 입력해주세요: ");
-                input = scanner.nextInt();
+
+                if(!cartExist) {
+                    System.out.print(startNo + "~" + endNo + " 사이의 숫자를 입력해주세요: ");
+                    input = scanner.nextInt();
+                } else {
+                    System.out.print(startNo + "~" + (endNo + 2) + " 사이의 숫자를 입력해주세요 : ");
+                    input = scanner.nextInt();
+
+                }
 
                 if (input >= startNo && input <= endNo) {
                     return input;
                 } else if (input == 0) {
+                    return input;
+                } else if ((input == endNo + 1 || input == endNo + 2) && cartExist) {
                     return input;
                 } else {
                     throw new IllegalArgumentException();

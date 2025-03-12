@@ -74,12 +74,18 @@ public class Menu {
         double menuPrice = this.menuItems.get(menuItemNum - 1).getMenuPrice();
         String menuInfo = this.menuItems.get(menuItemNum - 1).getMenuInfo();
 
-        System.out.println("\n-------- 선택한 메뉴 --------");
-        System.out.printf("%-2d. %-15s| W %5.1f | %s%n", menuItemNum, menuName, menuPrice, menuInfo);
-        System.out.println("-----------------------------");
+        System.out.println("\n---------------- 선택한 메뉴 ----------------");
+        System.out.printf(" %-15s| W %5.1f | %s%n", menuName, menuPrice, menuInfo);
+        System.out.println("-------------------------------------------");
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("1 . 확인           | 2 . 취소     ");
 
-        System.out.println("0 . 이전으로");
+    }
 
+    public void printAddedCartMenu(int menuItemNum) {
+        String menuName = this.menuItems.get(menuItemNum - 1).getMenuName();
+
+        System.out.println("\n"+menuName+" 메뉴가 장바구니에 추가되었습니다.");
     }
 
 
