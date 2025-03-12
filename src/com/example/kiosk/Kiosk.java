@@ -68,27 +68,28 @@ public class Kiosk {
 
 
             //메인 메뉴 입력
-            try {
-                while(true) {
-                    System.out.print("1~"+this.menus.size()+" 사이의 숫자를 입력해주세요: ");
+            while(true) {
+                try {
+
+                    System.out.print("1~" + this.menus.size() + " 사이의 숫자를 입력해주세요: ");
                     mainNum = scanner.nextInt();
 
-                   if(mainNum >=1 && mainNum <= this.menus.size()) {
-                        pickedCategory = this.menus.get(mainNum-1);
+                    if (mainNum >= 1 && mainNum <= this.menus.size()) {
+                        pickedCategory = this.menus.get(mainNum - 1);
                         break;
-                    } else if(mainNum == 0) {
+                    } else if (mainNum == 0) {
                         System.out.println("키오스크를 종료합니다.");
                         exitKiosk = true;
                         break;
                     } else {
-                        System.out.println("\n❌ 1~"+ this.menus.size()+ "사이에서 다시 입력해주세요.\n");
+                        System.out.println("\n❌ 1~" + this.menus.size() + "사이에서 다시 입력해주세요.\n");
                     }
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("\n❌ 숫자만 입력해주세요\n");
-                scanner.next();//버퍼비우기
-            }
 
+                } catch (InputMismatchException e) {
+                    System.out.println("\n❌ 숫자만 입력해주세요\n");
+                    scanner.next();//버퍼비우기
+                }
+            }
 
 
             while (!exitCategory) {
@@ -123,9 +124,55 @@ public class Kiosk {
         scanner.close();
     }
 
-    public void checkingMainInput(int mainNum) {
+    //입력값 예외 처리 로직
+    public int checkingInput(Scanner scanner, int startNo, int endNo, Menu pickedCategory, boolean exitKiosk) {
+
+        int input = 0;
+
+        while (true) {
+
+            try {
+                if (pickedCategory == null) {
+
+                    System.out.print("1~" + this.menus.size() + " 사이의 숫자를 입력해주세요: ");
+                    input = scanner.nextInt();
+                    
+                    if (input >= 1 && input <= this.menus.size()) {
+                        pickedCategory = this.menus.get(input - 1);
+                        break;
+                    } else if (input == 0) {
+                        System.out.println("키오스크를 종료합니다.");
+                        exitKiosk = true;
+                        break;
+                    } else {
+                        System.out.println("\n❌ 1~" + this.menus.size() + "사이에서 다시 입력해주세요.\n");
+                    }
+
+                } else {
+
+                    System.out.print("1~5 또는 0을 입력하세요: ");
+                    input = scanner.nextInt();
+
+                    if (input >= 1 && input <= 5) {
+                        pickedCategory.printPickedMenu(input);
+                    } else if (input == 0) {
+                        System.out.println("메인메뉴로 돌아갑니다.");
+                        exitCategory = true;
+                    } else {
+                        System.out.println("\n❌ 1~5 사이에서 다시 입력해주세요.\n");
+                        categoryMenuPrinting = false;
+                    }
+
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("\n❌ 숫자만 입력해주세요\n");
+                scanner.next();//버퍼비우기
+            }
+
+        }
+
 
     }
-
 
 }

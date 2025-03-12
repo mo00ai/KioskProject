@@ -68,14 +68,13 @@ public class Menu {
     }
 
     public void printPickedMenu(int menuItemNum) {
-
-        System.out.println("\n-------- 선택한 메뉴 --------");
         String menuName = this.menuItems.get(menuItemNum - 1).getMenuName();
         double menuPrice = this.menuItems.get(menuItemNum - 1).getMenuPrice();
         String menuInfo = this.menuItems.get(menuItemNum - 1).getMenuInfo();
-        System.out.println("\n----------------------------");
 
+        System.out.println("\n-------- 선택한 메뉴 --------");
         System.out.printf("%-2d. %-15s| W %5.1f | %s%n", menuItemNum, menuName, menuPrice, menuInfo);
+        System.out.println("\n----------------------------");
 
         System.out.println("0 . 이전으로");
 
