@@ -3,23 +3,24 @@ package com.example.kiosk;
 import java.util.List;
 
 public class Menu {
-    //카테고리 이름 필드 추가
-    //MenuItem 클래스를 list로 관리
-    
-    //MenuItem 클래스를 관리하는 클래스
-    //예시 : 버거 메뉴, 음료 메뉴 등 각 카테고리 내에 여러 MenuItem을 포함합니다.
+
+    //필드
+
+    //카테고리명
     private String menuCategory;
 
-    //프로그램 순서 및 흐름 제어를 담당하는 클래스
+    //메뉴아이템 리스트
     private List<MenuItem> menuItems;
 
 
-
+    //생성자
     public Menu(String menuCategory, List<MenuItem> menuItems) {
         this.menuItems = menuItems;
         this.menuCategory = menuCategory;
     }
 
+
+    //게터세터
     public String getMenuCategory() {
         return menuCategory;
     }
@@ -36,11 +37,10 @@ public class Menu {
         this.menuItems = menuItems;
     }
 
-    public void addMenuList(Menu menu) {
-
-    }
 
 
+    //기능들
+    //카테고리별 메뉴를 출력
     public void printMenuItemList() {
 
         int startNo = 0;
@@ -67,6 +67,8 @@ public class Menu {
 
     }
 
+    
+    //카테고리별 메뉴 내에서 선택한 메뉴 출력문을 반환
     public void printPickedMenu(int menuItemNum) {
         String menuName = this.menuItems.get(menuItemNum - 1).getMenuName();
         double menuPrice = this.menuItems.get(menuItemNum - 1).getMenuPrice();
@@ -74,7 +76,7 @@ public class Menu {
 
         System.out.println("\n-------- 선택한 메뉴 --------");
         System.out.printf("%-2d. %-15s| W %5.1f | %s%n", menuItemNum, menuName, menuPrice, menuInfo);
-        System.out.println("\n----------------------------");
+        System.out.println("-----------------------------");
 
         System.out.println("0 . 이전으로");
 

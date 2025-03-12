@@ -7,11 +7,22 @@ public class MenuItem {
     //new MenuItem("ShackBurger", 6.9, "토마토, 양상추, 쉑소스가 토핑된 치즈버거")
 
 
+    //필드
     private String menuName;
     private double menuPrice;
     private String menuInfo;
 
 
+    //메뉴아이템 생성자
+    public MenuItem(String menuName, double menuPrice, String menuInfo) {
+        this.menuName = menuName;
+        this.menuPrice = menuPrice;
+        this.menuInfo = menuInfo;
+    }
+    
+
+
+    //게터 세터
     public String getMenuName() {
         return menuName;
     }
@@ -36,11 +47,6 @@ public class MenuItem {
         this.menuInfo = menuInfo;
     }
 
-    public MenuItem(String menuName, double menuPrice, String menuInfo) {
-        this.menuName = menuName;
-        this.menuPrice = menuPrice;
-        this.menuInfo = menuInfo;
-    }
 
 
 
