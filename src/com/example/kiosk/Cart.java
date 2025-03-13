@@ -40,22 +40,22 @@ public class Cart {
 
 
 
-
-
-
-
-
+    //장바구니 추가
     public void addCartList (MenuItem item) {
 
         this.cartList.add(item);
     }
 
+
+    //장바구니 목록 출력 (수량 출력 기능)
     public void printCartList() {
         setTotalPrice();
 
         System.out.println("\n--------------------------------------------------------");
         System.out.println("🍔 장바구니 🍔");
         System.out.println("--------------------------------------------------------");
+
+        //Map에 장바구니 목록의 수량까지 저장
         for(MenuItem item : this.cartList) {
             Integer count = cartQuantityList.get(item);
             if(count == null) {
@@ -65,25 +65,27 @@ public class Cart {
             }
         }
 
+        //출력문
         for(MenuItem item : this.cartQuantityList.keySet()) {
             System.out.printf(" %-15s| W %5.1f | 수량: %d | %s%n", item.getMenuName(), item.getMenuPrice(), cartQuantityList.get(item), item.getMenuInfo());
         }
         System.out.println("--------------------------------------------------------");
-        System.out.println(" 총금액 : "+ this.totalPrice);
+        System.out.printf(" 총금액 : %.1f%n", this.totalPrice);
         System.out.println("--------------------------------------------------------");
         System.out.println("1. 주문          | 2. 메뉴판 돌아가기");
         System.out.println();
     }
 
 
-
+    //할인금액 구하기
     public double getDisCountedPrice(Discount discount) {
         return this.totalPrice * ((100 - discount.getPercentage()) * 0.01);
     }
 
-
+    //장바구니 비우기
     public void makeEmptyCart() {
         this.cartList.clear();
         this.totalPrice = 0.0;
+        System.out.println("장바구니를 초기화합니다.");
     }
 }

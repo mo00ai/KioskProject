@@ -82,12 +82,6 @@ public class Menu {
 
     }
 
-    public void printAddedCartMenu(int menuItemNum) {
-        String menuName = this.menuItems.get(menuItemNum - 1).getMenuName();
-
-        System.out.println("\n"+menuName+" 메뉴가 장바구니에 추가되었습니다.");
-    }
-
 
 
 
