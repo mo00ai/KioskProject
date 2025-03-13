@@ -35,6 +35,7 @@ public class Kiosk {
         boolean exitKiosk = false;
         boolean exitCategory = false;
         boolean cartExist = false;
+        boolean readyOrder = false;
         int mainNum=0;
         int menuItemNum = 0;
         Menu pickedCategory = null;
@@ -75,7 +76,7 @@ public class Kiosk {
             //메인 메뉴 입력
 
             //입력값 검사 메서드 호출
-            mainNum = checkingInput(scanner,1, this.menus.size(), cartExist);
+            mainNum = checkingInput(scanner,1, this.menus.size(), cartExist, readyOrder);
 
             if (mainNum >= 1 && mainNum <= this.menus.size()) {
                 pickedCategory = this.menus.get(mainNum - 1);
@@ -86,7 +87,8 @@ public class Kiosk {
             } else if(mainNum == 4) {
                 if(cartList != null) {
                     cartList.printCartList();
-                    int orderNum = checkingInput(scanner, 1,2, cartExist);
+                    readyOrder = true;
+                    int orderNum = checkingInput(scanner, 1,2, cartExist, readyOrder);
 
                     if(orderNum == 1) {
                         System.out.println("주문이 완료되었습니다. 금액은 W " + cartList.getTotalPrice()+" 입니다.");
@@ -100,15 +102,10 @@ public class Kiosk {
             } else if( mainNum == 5) {
                 System.out.println("주문 취소 되었습니다.");
                 System.out.println("메인메뉴로 돌아갑니다.");
-                cartList.makeEmptyCart();
+                cartList.makeEmptyCart(); //장바구니 비우기
                 cartExist = false;
                 exitCategory = true;
             }
-
-
-
-
-
 
 
 
@@ -129,7 +126,7 @@ public class Kiosk {
                 //선택한 카테고리 내 메뉴 선택
 
                 //입력값 검사 메서드 호출 (int반환)
-                menuItemNum = checkingInput(scanner, 1,5, cartExist);
+                menuItemNum = checkingInput(scanner, 1,5, cartExist, readyOrder);
 
                 if (menuItemNum >= 1 && menuItemNum <= 5) {
                     pickedCategory.printPickedMenu(menuItemNum);
@@ -145,7 +142,7 @@ public class Kiosk {
 
 
                 //장바구니 추가 할건지 입력
-                int num = checkingInput(scanner, 1, 2, cartExist);
+                int num = checkingInput(scanner, 1, 2, cartExist, readyOrder);
 
                 if(num == 1) {
                     pickedCategory.printAddedCartMenu(menuItemNum);
@@ -177,7 +174,7 @@ public class Kiosk {
 
 
     //입력값 예외 처리 로직
-    public int checkingInput(Scanner scanner, int startNo, int endNo, boolean cartExist) {
+    public int checkingInput(Scanner scanner, int startNo, int endNo, boolean cartExist, boolean readyOrder) {
 
         int input = 0;
 
@@ -186,6 +183,9 @@ public class Kiosk {
             try {
 
                 if(!cartExist) {
+                    System.out.print(startNo + "~" + endNo + " 사이의 숫자를 입력해주세요: ");
+                    input = scanner.nextInt();
+                } else if (cartExist && readyOrder) {
                     System.out.print(startNo + "~" + endNo + " 사이의 숫자를 입력해주세요: ");
                     input = scanner.nextInt();
                 } else {
@@ -198,7 +198,7 @@ public class Kiosk {
                     return input;
                 } else if (input == 0) {
                     return input;
-                } else if ((input == endNo + 1 || input == endNo + 2) && cartExist) {
+                } else if ((input == endNo + 1 || input == endNo + 2) && cartExist && !readyOrder) {
                     return input;
                 } else {
                     throw new IllegalArgumentException();

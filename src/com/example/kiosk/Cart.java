@@ -1,7 +1,6 @@
 package com.example.kiosk;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Cart {
 
@@ -9,6 +8,16 @@ public class Cart {
     MenuItem menuItem;
 
     private List<MenuItem> cartList = new LinkedList<>();
+
+    public Map<MenuItem, Integer> getCartQuantityList() {
+        return cartQuantityList;
+    }
+
+    public void setCartQuantityList(Map<MenuItem, Integer> cartQuantityList) {
+        this.cartQuantityList = cartQuantityList;
+    }
+
+    private Map<MenuItem,Integer> cartQuantityList = new HashMap<>();
 
     public List<MenuItem> getCartList() {
         return cartList;
@@ -24,12 +33,24 @@ public class Cart {
     }
 
     public void printCartList() {
-        System.out.println("\n🍔 장바구니 🍔");
+        System.out.println("\n--------------------------------------------------------");
+        System.out.println("🍔 장바구니 🍔");
+        System.out.println("--------------------------------------------------------");
         for(MenuItem item : this.cartList) {
-            System.out.printf(" %-15s| W %5.1f | %s%n", item.getMenuName(), item.getMenuPrice(), item.getMenuInfo());
+            Integer count = cartQuantityList.get(item);
+            if(count == null) {
+                cartQuantityList.put(item, 1);
+            } else {
+                cartQuantityList.put(item, count + 1);
+            }
         }
-        System.out.println("\n 총금액 : "+ getTotalPrice());
-        System.out.println();
+
+        for(MenuItem item : this.cartQuantityList.keySet()) {
+            System.out.printf(" %-15s| W %5.1f | 수량: %d | %s%n", item.getMenuName(), item.getMenuPrice(), cartQuantityList.get(item).intValue(), item.getMenuInfo());
+        }
+        System.out.println("--------------------------------------------------------");
+        System.out.println(" 총금액 : "+ getTotalPrice());
+        System.out.println("--------------------------------------------------------");
         System.out.println("1. 주문          | 2. 메뉴판 돌아가기");
         System.out.println();
     }
